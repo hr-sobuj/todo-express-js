@@ -1,0 +1,15 @@
+{
+  "name": "todo-project",
+  "version": "1.0.0",
+  "description": "It is a simple project on Express JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Habibur Rahman Sobuj",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "mongoose": "^6.2.9"
+  }
+}
