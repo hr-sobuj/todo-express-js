@@ -105,8 +105,19 @@ route.put('/:id',async(req,res)=>{
 })
 
 // DELETE TODO
-route.delete('/',async(req,res,next)=>{
-
+route.delete('/:id',async(req,res,next)=>{
+    await Todo.deleteOne({_id:req.params.id})
+    .exec((err)=>{
+        if (err) {
+            res.status(500).json({
+              error: "There was a server side error!",
+            });
+          } else {
+            res.status(200).json({
+              message: "Deleted",
+            });
+        }
+    })
 })
 
 
