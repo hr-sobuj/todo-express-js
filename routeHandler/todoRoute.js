@@ -27,6 +27,20 @@ route.get('/',async(req,res,next)=>{
 })
 // get by id 
 route.get('/:id',async(req,res,next)=>{
+    // console.log(req.params.id);
+    await Todo.find({_id:req.params.id})
+    .exec((err,data)=>{
+        if (err) {
+            res.status(500).json({
+              error: "There was a server side error!",
+            });
+          } else {
+            res.status(200).json({
+              result: data,
+              message: "Success",
+            });
+        }
+    })
 
 })
 
@@ -63,12 +77,35 @@ route.post('/all',async(req,res,next)=>{
 })
 
 // PUT TODO
-route.put('/',async(req,res,next)=>{
-
+route.put('/:id',async(req,res)=>{
+    const result = await Todo.findByIdAndUpdate(
+        { _id: req.params.id },
+        {
+          $set: {
+            status: "active",
+          },
+        },
+        {
+          new: true,
+          useFindAndModify: false,
+        },
+        (err) => {
+          if (err) {
+            res.status(500).json({
+              error: "There was a server side error!",
+            });
+          } else {
+            res.status(200).json({
+              message: "Todo was updated successfully!",
+            });
+          }
+        }
+      ).clone();
+      console.log(result);
 })
 
 // DELETE TODO
-route.put('/',async(req,res,next)=>{
+route.delete('/',async(req,res,next)=>{
 
 })
 
