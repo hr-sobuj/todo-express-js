@@ -8,7 +8,22 @@ const route=express.Router();
 
 // get all 
 route.get('/',async(req,res,next)=>{
-
+    await Todo.find({status:"active"})
+    .select({_id:0,__v:0,date:0})
+    .limit(2)
+    .exec((err,data)=>{
+        if(err){
+            res.status(500).json({
+                error:"There was a server side error!"
+            })
+        }else{
+            res.status(200).json({
+                result:data,
+                message:"Success!"
+            })
+        }
+    })
+    
 })
 // get by id 
 route.get('/:id',async(req,res,next)=>{
@@ -17,7 +32,7 @@ route.get('/:id',async(req,res,next)=>{
 
 // POST ONE TODO
 route.post('/',async(req,res)=>{
-    console.log(req.body);
+    // console.log(req.body);
     const newTodo=new Todo(req.body);
     await newTodo.save((err)=>{
         if(err){
@@ -33,7 +48,7 @@ route.post('/',async(req,res)=>{
 })
 // POST MULTI TODO
 route.post('/all',async(req,res,next)=>{
-    console.log(req.body);
+    // console.log(req.body);
     Todo.insertMany(req.body,(err)=>{
         if(err){
             res.status(500).json({
