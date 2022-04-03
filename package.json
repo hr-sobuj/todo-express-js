@@ -4,6 +4,7 @@
   "description": "It is a simple project on Express JS",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Habibur Rahman Sobuj",
