@@ -1,6 +1,7 @@
 const express=require('express');
 const mongoose=require('mongoose');
-const todoRoute=require('./routeHandler/todoRoute')
+const todoRoute=require('./routeHandler/todoRoute');
+const userRoute=require('./routeHandler/userRoute');
 
 const app=express();
 
@@ -17,6 +18,7 @@ mongoose.connect("mongodb://localhost/todos")
 
 
 app.use('/todo',todoRoute);
+app.use('/user',userRoute);
 
 app.listen(3000,()=>{
     console.log("App is runing in 3000 port");

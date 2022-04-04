@@ -1,6 +1,6 @@
 const express=require('express');
 const mongoose=require('mongoose');
-const todoSchema=require('../schamas/todoSchema');
+const todoSchema=require('../schemas/todoSchema');
 const Todo=new mongoose.model('Todo',todoSchema);
 
 // ROUTE OBJECT
