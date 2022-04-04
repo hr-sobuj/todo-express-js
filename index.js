@@ -1,10 +1,11 @@
 const express=require('express');
 const mongoose=require('mongoose');
+const dotenv=require('dotenv')
 const todoRoute=require('./routeHandler/todoRoute');
 const userRoute=require('./routeHandler/userRoute');
 
 const app=express();
-
+dotenv.config();
 app.use(express.json());
 
 // connect with mongoDB

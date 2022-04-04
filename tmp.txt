@@ -21,3 +21,10 @@
     "status":"active"
 }
 ]
+
+///user creation
+{
+    "name":"Habibur Rahman Sobuj",
+    "username":"Habibur Rahman Sobuj",
+    "password":"123456"
+}
