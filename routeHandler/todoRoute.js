@@ -3,12 +3,58 @@ const mongoose=require('mongoose');
 const todoSchema=require('../schamas/todoSchema');
 const Todo=new mongoose.model('Todo',todoSchema);
 
-// route object 
+// ROUTE OBJECT
 const route=express.Router();
 
-// get all 
-route.get('/',async(req,res,next)=>{
-    await Todo.find({status:"active"})
+
+// GET ACTIVE TODO with static 
+route.get('/js',async(req,res)=>{
+  // console.log("called");
+  const data=await Todo.findByJS();
+  res.status(200).json({
+    data
+  })
+})
+
+// GET ACTIVE TODO with static 
+route.get('/language',async(req,res)=>{
+  // console.log("called
+  const data=await Todo.find().byLanguage("js");
+  res.status(200).json({
+    data
+  })
+})
+
+
+// GET ACTIVE TODO 
+route.get('/active',async(req,res)=>{
+  // console.log("called");
+  const todo=new Todo();
+  const data=await todo.findActive();
+  res.status(200).json({
+    data
+  })
+})
+
+// GET ACTIVE TODO with Callback 
+route.get('/active-callback',(req,res)=>{
+  // console.log("called");
+  const todo=new Todo();
+  todo.findActiveWithCallback((err,data)=>{
+    res.status(200).json({
+      data
+    })
+  });
+  
+})
+
+
+
+
+
+// GET ALL TODO
+route.get('/',(req,res,next)=>{
+     Todo.find({status:"active"})
     .select({_id:0,__v:0,date:0})
     .limit(2)
     .exec((err,data)=>{
@@ -25,22 +71,22 @@ route.get('/',async(req,res,next)=>{
     })
     
 })
-// get by id 
-route.get('/:id',async(req,res,next)=>{
+// GET BY ID
+route.get('/:id',async(req,res)=>{
     // console.log(req.params.id);
-    await Todo.find({_id:req.params.id})
-    .exec((err,data)=>{
-        if (err) {
-            res.status(500).json({
-              error: "There was a server side error!",
-            });
-          } else {
-            res.status(200).json({
-              result: data,
-              message: "Success",
-            });
-        }
-    })
+    
+    try {
+      const data=await Todo.find({_id:req.params.id});
+      res.status(200).json({
+        result: data,
+        message: "Success",
+      });
+    } catch (error) {
+      res.status(500).json({
+        error: "There was a server side error!",
+      });
+    }
+   
 
 })
 
