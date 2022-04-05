@@ -35,7 +35,7 @@ route.post('/signin', async (req, res) => {
     try {
         // FIND USER FROM DATABASE
         const user = await User.find({ username: req.body.username });
-
+        console.log(user);
         if (user && user.length > 0) {
             // USER VALIDATION 
             const isValidUser = await bcrypt.compare(req.body.password, user[0].password);

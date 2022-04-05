@@ -1,11 +1,32 @@
 const express=require('express');
 const mongoose=require('mongoose');
+const checkAuth = require('../middlewares/checkAuth');
 const todoSchema=require('../schemas/todoSchema');
 const Todo=new mongoose.model('Todo',todoSchema);
 
 // ROUTE OBJECT
 const route=express.Router();
 
+
+// GET ALL TODO
+route.get('/',checkAuth,(req,res,next)=>{
+  Todo.find({status:"active"})
+ .select({_id:0,__v:0,date:0})
+ .limit(2)
+ .exec((err,data)=>{
+     if(err){
+         res.status(500).json({
+             error:"There was a server side error!"
+         })
+     }else{
+         res.status(200).json({
+             result:data,
+             message:"Success!"
+         })
+     }
+ })
+ 
+});
 
 // GET ACTIVE TODO with static 
 route.get('/js',async(req,res)=>{
@@ -48,29 +69,6 @@ route.get('/active-callback',(req,res)=>{
   
 })
 
-
-
-
-
-// GET ALL TODO
-route.get('/',(req,res,next)=>{
-     Todo.find({status:"active"})
-    .select({_id:0,__v:0,date:0})
-    .limit(2)
-    .exec((err,data)=>{
-        if(err){
-            res.status(500).json({
-                error:"There was a server side error!"
-            })
-        }else{
-            res.status(200).json({
-                result:data,
-                message:"Success!"
-            })
-        }
-    })
-    
-})
 // GET BY ID
 route.get('/:id',async(req,res)=>{
     // console.log(req.params.id);

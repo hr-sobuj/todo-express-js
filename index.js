@@ -21,6 +21,15 @@ mongoose.connect("mongodb://localhost/todos")
 app.use('/todo',todoRoute);
 app.use('/user',userRoute);
 
+const errorHandler=(err,req,res,next)=>{
+    if(req.headerSent){
+        return next('Error')
+    }
+    res.status(500).json({ error: err });
+}
+
+app.use(errorHandler);
+
 app.listen(3000,()=>{
     console.log("App is runing in 3000 port");
 })
