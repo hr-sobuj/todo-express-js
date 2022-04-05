@@ -64,7 +64,22 @@ route.post('/signin', async (req, res) => {
         }
     } catch (error) {
         res.status(401).json({
-            error: "Authentication Failed!1"+error.message
+            error: "Authentication Failed!1"
+        })
+    }
+});
+
+// GET ALL USERS
+route.get('/all',async(req,res)=>{
+    try {
+        const user=await User.find().populate('todos')
+        res.status(200).json({
+            "Result": user,
+            "message": "Successfull."
+        })
+    } catch (error) {
+        res.status(401).json({
+            error: "Operation Failed!"
         })
     }
 })
